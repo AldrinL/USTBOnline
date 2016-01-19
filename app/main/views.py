@@ -36,7 +36,7 @@ def init_auth():
         print(request.data)
         dict = todict(request.data)
         if dict['MsgType'] == 'event' and dict['Event'] == 'CLICK' and dict["EventKey"] == "check":
-            url = 'http://blog-148021.nitrousapp.com' + url_for('main.grade', opid = dict['FromUserName'])
+            url = 'http://hxcsej-3000-vdqbzf.box.myide.io' + url_for('main.grade', opid = dict['FromUserName'])
             return toxml(dict, url)
 
 
