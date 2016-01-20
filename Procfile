@@ -1,1 +1,1 @@
-web: gunicorn manage:app
+web: gunicorn manage:app 0.0.0.0:80
