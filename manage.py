@@ -10,7 +10,7 @@ def make_shell_context():
     return dict(app=app, db=db, User=User, School=School)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
-manager.add_command('runserver', Server(host="0.0.0.0", port=3000))
+manager.add_command('runserver', Server(host="0.0.0.0", port=80))
 @manager.command
 def test():
     """Run the unit tests."""
