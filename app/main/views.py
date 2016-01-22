@@ -6,8 +6,8 @@ from .. import db
 from ..models import db, User, School
 from ..school import getOpener, USTB
 from ..wxmsgr import wxinit, todict, toxml, getwxid
-import json
-import urllib.request
+# import json
+# import urllib.request
 # from app.database import db_session
 
 @main.before_app_first_request
