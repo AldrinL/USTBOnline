@@ -51,8 +51,11 @@ def oauth():
 def binding():
     state = None
     form = BindingForm()
-    opid=getwxid(request.args.get("code"))
-    if opid and form.validate_on_submit():
+    if session.get('opid'):
+        opid=session['opid']
+    else:
+        opid=getwxid(request.args.get("code"))
+    if  opid and form.validate_on_submit():
         ustb=USTB(form.stuid.data, form.pswd.data)
         opener = ustb.login()
         if opener :
@@ -74,7 +77,10 @@ def binding():
 
 @main.route('/grade', methods = ['GET', 'POST'] )
 def grade():
-    opid=getwxid(request.args.get("code"))
+    if session.get('opid'):
+        opid=session['opid']
+    else:
+        opid=getwxid(request.args.get("code"))
     print(opid)
     print('2',request.args.get("code"))
     user = User.query.filter_by(wxid=opid).first()
