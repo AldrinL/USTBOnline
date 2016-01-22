@@ -2,7 +2,7 @@ import time
 import xml.etree.ElementTree as ET
 import sys
 import hashlib
-from flask import session
+from flask import session, current_app
 import urllib.request
 import json
 
@@ -25,12 +25,13 @@ def wxinit(signature, timestamp, nonce, echostr):
 def getwxid(code=None):
     if session.get('opid'):
         return session.get('opid')
-    else:
+    elseif :
         tokenurl='https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx3bd2eedb7bee8069&secret=07b4bca7c5874366baf960d98dbb1487&code=%s&grant_type=authorization_code' % code
         op=urllib.request.urlopen(tokenurl).read()
         data = json.loads(op.decode())
-        session['opid']=data.get('openid')
-        return data.get('openid')
+        if data.get('openid')
+            session['opid']=data.get('openid')
+            return data.get('openid')
 
 
 def todict(xml):
