@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, session, redirect, current_app, url_for, request , make_response, flash
+from flask import render_template, session, redirect, current_app, url_for, request , make_response, flash, session
 from . import main
 from .forms import BindingForm
 from .. import db
@@ -49,38 +49,38 @@ def oauth():
         data = json.loads(data.decode())
         print(data)
         if data.get('openid'):
-            current_app.opid=data['openid']
+            session['opid']=data['openid']
             print(data['openid'])
-        return redirect(url_for('main.binding', opid=current_app.opid))
+        return redirect(url_for('main.binding'))
 
-@main.route('/binding/<opid>', methods = ['GET', 'POST'])
-def binding(opid):
+@main.route('/binding', methods = ['GET', 'POST'])
+def binding():
     state = None
     form = BindingForm()
-    if form.validate_on_submit():
+    opid=session.get['opid']
+    if opid and form.validate_on_submit():
         ustb=USTB(form.stuid.data, form.pswd.data)
         opener = ustb.login()
         if opener :
-            flash('恭喜:), 绑定成功!')
-            state = '已绑定'
-            print('1')
-            user = User.query.filter_by(wxid=opid).first()
+            user=User.query.filter_by(wxid=opid).first()
             if user:
-                print('2')
                 pass
             else:
-                print('3')
                 user = User(opid, form.stuid.data, form.pswd.data, current_app.USTB)
                 db.session.add(user)
-                print('4')
+                flash('恭喜:), 绑定成功!')
+            state = '已绑定'
         else:
             flash('绑定失败:(, 请检查学号密码是否正确')
         form.stuid.data = ''
+    else:
+        state='请使用微信登录'
     return render_template('binding.html', form=form, state=state)
 
 
-@main.route('/grade/<opid>', methods = ['GET', 'POST'] )
-def grade(opid):
+@main.route('/grade', methods = ['GET', 'POST'] )
+def grade():
+    opid=session.get['opid']
     user = User.query.filter_by(wxid=opid).first()
     if user:
         ustb=USTB(user.stuid, user.pswd)
