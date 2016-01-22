@@ -44,6 +44,7 @@ def init_auth():
 def oauth():
     session['opid']=getwxid(request.args.get("code"))
     print(session['opid'])
+    print('1',request.args.get("code"))
     return redirect(url_for('main.binding'))
 
 @main.route('/binding', methods = ['GET', 'POST'])
@@ -75,6 +76,7 @@ def binding():
 def grade():
     opid=getwxid(request.args.get("code"))
     print(opid)
+    print('2',request.args.get("code"))
     user = User.query.filter_by(wxid=opid).first()
     if user:
         ustb=USTB(user.stuid, user.pswd)
