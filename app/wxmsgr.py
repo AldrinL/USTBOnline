@@ -29,7 +29,7 @@ def getwxid(code=None):
         tokenurl='https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx3bd2eedb7bee8069&secret=07b4bca7c5874366baf960d98dbb1487&code=%s&grant_type=authorization_code' % code
         op=urllib.request.urlopen(tokenurl)
         data=op.read()  #不要轻易删除
-        data = json.loads(op.decode())
+        data = json.loads(data.decode())
         if data.get('openid'):
             session['opid']=data.get('openid')
             return session['opid']
