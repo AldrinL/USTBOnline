@@ -64,7 +64,7 @@ def binding():
         if opener :
             user=User.query.filter_by(wxid=opid).first()
             if user:
-                pass
+                state='已重新绑定'
             else:
                 user = User(opid, form.stuid.data, form.pswd.data, current_app.USTB)
                 db.session.add(user)
