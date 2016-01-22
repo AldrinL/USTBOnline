@@ -30,8 +30,8 @@ def getwxid(code=None):
         op=urllib.request.urlopen(tokenurl).read()
         data = json.loads(op.decode())
         print(data)
-        session['opid']=data.get('opid')
-        return data.get('opid')
+        session['opid']=data.get('openid')
+        return data.get('openid')
 
 
 def todict(xml):
