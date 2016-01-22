@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 import sys
 import hashlib
 from flask import session, request
+import urllib.request
 
 def wxinit(signature, timestamp, nonce, echostr):
     temparr = []
