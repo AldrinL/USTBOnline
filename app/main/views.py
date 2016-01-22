@@ -43,7 +43,6 @@ def init_auth():
 @main.route('/bd', methods = ['GET', 'POST'] )
 def oauth():
     session['opid']=getwxid()
-    print(data['openid'])
     return redirect(url_for('main.binding'))
 
 @main.route('/binding', methods = ['GET', 'POST'])
