@@ -5,14 +5,13 @@ from .forms import BindingForm
 from .. import db
 from ..models import db, User, School
 from ..school import getOpener, USTB
-from ..wxmsgr import wxinit, todict, toxml
+from ..wxmsgr import wxinit, todict, toxml, getwxid
 import json
 import urllib.request
 # from app.database import db_session
 
 @main.before_app_first_request
-def before_first_request(): #为避免微信多次发送code的get请求
-    current_app.opid=''
+def before_first_request(): 
     current_app.USTB=School('USTB')
 
 
@@ -36,28 +35,22 @@ def init_auth():
         print(request.data)
         dict = todict(request.data)
         if dict['MsgType'] == 'event' and dict['Event'] == 'CLICK' and dict["EventKey"] == "check":
-            url = 'http://ustbonline.coding.io' + url_for('main.grade', opid = dict['FromUserName'])
+            # url = 'http://ustbonline.coding.io' + url_for('main.grade', opid = dict['FromUserName'])
+            url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3bd2eedb7bee8069&redirect_uri=https://ustbonline.coding.io'+ url_for('main.grade') +'&response_type=code&scope=snsapi_base#wechat_redirect' 
             return toxml(dict, url)
 
 
 @main.route('/bd', methods = ['GET', 'POST'] )
 def oauth():
-    if request.method == 'GET':
-        tokenurl='https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx3bd2eedb7bee8069&secret=07b4bca7c5874366baf960d98dbb1487&code=%s&grant_type=authorization_code' % request.args["code"]
-        op=urllib.request.urlopen(tokenurl).read()
-        data = op
-        data = json.loads(data.decode())
-        print(data)
-        if data.get('openid'):
-            session['opid']=data['openid']
-            print(data['openid'])
-        return redirect(url_for('main.binding'))
+    session['opid']=getwxid()
+    print(data['openid'])
+    return redirect(url_for('main.binding'))
 
 @main.route('/binding', methods = ['GET', 'POST'])
 def binding():
     state = None
     form = BindingForm()
-    opid=session.get('opid')
+    opid=getwxid()
     if opid and form.validate_on_submit():
         ustb=USTB(form.stuid.data, form.pswd.data)
         opener = ustb.login()
@@ -80,7 +73,7 @@ def binding():
 
 @main.route('/grade', methods = ['GET', 'POST'] )
 def grade():
-    opid=session.get('opid')
+    opid=getwxid()
     user = User.query.filter_by(wxid=opid).first()
     if user:
         ustb=USTB(user.stuid, user.pswd)
