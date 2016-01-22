@@ -34,7 +34,7 @@ def init_auth():
     else:
         print(request.data)
         dict = todict(request.data)
-        if dict['MsgType'] == 'event' and dict['Event'] == 'CLICK' and dict["EventKey"] == "check":
+        if dict['MsgType'] == 'event' and dict['Event'] == 'CLICK' and dict["EventKey"] == "cx":
             # url = 'http://ustbonline.coding.io' + url_for('main.grade', opid = dict['FromUserName'])
             url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3bd2eedb7bee8069&redirect_uri=https://ustbonline.coding.io'+ url_for('main.grade') +'&response_type=code&scope=snsapi_base#wechat_redirect' 
             return toxml(dict, url)
