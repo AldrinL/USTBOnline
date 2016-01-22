@@ -2,7 +2,7 @@ import time
 import xml.etree.ElementTree as ET
 import sys
 import hashlib
-# from flask import session, current_app
+from flask import session, current_app
 import urllib.request
 import json
 

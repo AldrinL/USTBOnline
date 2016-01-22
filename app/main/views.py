@@ -13,6 +13,7 @@ from ..wxmsgr import wxinit, todict, toxml, getwxid
 @main.before_app_first_request
 def before_first_request(): 
     current_app.USTB=School('USTB')
+    current_app.code=''
 
 
 # @main.teardown_request
@@ -45,16 +46,17 @@ def oauth():
     session['opid']=getwxid(request.args.get("code"))
     print(session['opid'])
     print('1',request.args.get("code"))
-    return redirect(url_for('main.binding'))
+#     return redirect(url_for('main.binding'))
 
-@main.route('/binding', methods = ['GET', 'POST'])
-def binding():
+# @main.route('/binding', methods = ['GET', 'POST'])
+# def binding():
     state = None
     form = BindingForm()
     if session.get('opid'):
         opid=session['opid']
     else:
         opid=getwxid(request.args.get("code"))
+        session['opid'] = opid
     if  opid and form.validate_on_submit():
         ustb=USTB(form.stuid.data, form.pswd.data)
         opener = ustb.login()
