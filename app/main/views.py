@@ -36,20 +36,20 @@ def init_auth():
         dict = todict(request.data)
         if dict['MsgType'] == 'event' and dict['Event'] == 'CLICK' and dict["EventKey"] == "cx":
             # url = 'http://ustbonline.coding.io' + url_for('main.grade', opid = dict['FromUserName'])
-            url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3bd2eedb7bee8069&redirect_uri=https://ustbonline.coding.io'+ url_for('main.grade') +'&response_type=code&scope=snsapi_base#wechat_redirect' 
+            url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3bd2eedb7bee8069&redirect_uri=http://ustbonline.coding.io'+ url_for('main.grade') +'&response_type=code&scope=snsapi_base#wechat_redirect' 
             return toxml(dict, url)
 
 
 @main.route('/bd', methods = ['GET', 'POST'] )
 def oauth():
-    session['opid']=getwxid()
+    session['opid']=getwxid(request.args.get("code"))
     return redirect(url_for('main.binding'))
 
 @main.route('/binding', methods = ['GET', 'POST'])
 def binding():
     state = None
     form = BindingForm()
-    opid=getwxid()
+    opid=getwxid(request.args.get("code"))
     if opid and form.validate_on_submit():
         ustb=USTB(form.stuid.data, form.pswd.data)
         opener = ustb.login()
@@ -72,7 +72,7 @@ def binding():
 
 @main.route('/grade', methods = ['GET', 'POST'] )
 def grade():
-    opid=getwxid()
+    opid=getwxid(request.args.get("code"))
     user = User.query.filter_by(wxid=opid).first()
     if user:
         ustb=USTB(user.stuid, user.pswd)

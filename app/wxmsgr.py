@@ -2,7 +2,7 @@ import time
 import xml.etree.ElementTree as ET
 import sys
 import hashlib
-from flask import session, request
+from flask import session
 import urllib.request
 import json
 
@@ -22,11 +22,11 @@ def wxinit(signature, timestamp, nonce, echostr):
     else:
         return "认证失败，不是微信服务器的请求！"
 
-def getwxid():
+def getwxid(code=None):
     if session.get('opid'):
         return session.get('opid')
     else:
-        tokenurl='https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx3bd2eedb7bee8069&secret=07b4bca7c5874366baf960d98dbb1487&code=%s&grant_type=authorization_code' % request.args.get("code")
+        tokenurl='https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx3bd2eedb7bee8069&secret=07b4bca7c5874366baf960d98dbb1487&code=%s&grant_type=authorization_code' % code
         op=urllib.request.urlopen(tokenurl).read()
         data = json.loads(op.decode())
         print(data)
