@@ -57,7 +57,7 @@ def oauth():
     else:
         opid=getwxid(request.args.get("code"))
         session['opid'] = opid
-        print('通过函数获得opid'，opid)
+        print('通过函数获得opid', opid)
     if  opid and form.validate_on_submit():
         ustb=USTB(form.stuid.data, form.pswd.data)
         opener = ustb.login()
