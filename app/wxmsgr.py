@@ -22,13 +22,18 @@ def wxinit(signature, timestamp, nonce, echostr):
     else:
         return "认证失败，不是微信服务器的请求！"
 
-def getwxid(code=None):
-    tokenurl='https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx3bd2eedb7bee8069&secret=07b4bca7c5874366baf960d98dbb1487&code=%s&grant_type=authorization_code' % code
-    op=urllib.request.urlopen(tokenurl)
-    data=op.read()  #不要轻易删除
-    data = json.loads(data.decode())
-    if data.get('openid'):
-        return data.get('openid')
+def getwxid(code):
+    if code != current_app.code:
+        current_app.code = code
+        tokenurl='https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx3bd2eedb7bee8069&secret=07b4bca7c5874366baf960d98dbb1487&code=%s&grant_type=authorization_code' % code
+        op=urllib.request.urlopen(tokenurl)
+        data=op.read()  #不要轻易删除
+        data = json.loads(data.decode())
+        session['opid']=data['openid']
+        return data['openid']
+    else:
+        return session['opid']
+        
 
 
 def todict(xml):

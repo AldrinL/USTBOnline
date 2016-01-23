@@ -44,8 +44,6 @@ def init_auth():
 @main.route('/bd', methods = ['GET', 'POST'] )
 def oauth():
     session['opid']=getwxid(request.args.get("code"))
-    print(session['opid'])
-    print('1',request.args.get("code"))
 #     return redirect(url_for('main.binding'))
 
 # @main.route('/binding', methods = ['GET', 'POST'])
@@ -53,10 +51,13 @@ def oauth():
     state = None
     form = BindingForm()
     if session.get('opid'):
+        print(session['opid'])
         opid=session['opid']
+        print('session中有opid',session['opid'])
     else:
         opid=getwxid(request.args.get("code"))
         session['opid'] = opid
+        print('通过函数获得opid'，opid)
     if  opid and form.validate_on_submit():
         ustb=USTB(form.stuid.data, form.pswd.data)
         opener = ustb.login()
