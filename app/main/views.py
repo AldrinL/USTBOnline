@@ -70,10 +70,8 @@ def oauth():
                 flash('恭喜:), 绑定成功!')
             state = '已绑定'
         else:
-            flash('绑定失败:(, 请检查学号密码是否正确')
+            flash('绑定失败:(, 请请使用微信登录，并检查学号密码是否正确')
         form.stuid.data = ''
-    else:
-        state='请使用微信登录'
     return render_template('binding.html', form=form, state=state)
 
 
