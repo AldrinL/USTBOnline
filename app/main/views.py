@@ -51,17 +51,16 @@ def oauth():
     state = None
     form = BindingForm()
     if session.get('opid'):
-        print(session['opid'])
         opid=session['opid']
         print('session中有opid',session['opid'])
     else:
         opid=getwxid(request.args.get("code"))
         session['opid'] = opid
         print('通过函数获得opid', opid)
-    if  opid and form.validate_on_submit():
+    if  form.validate_on_submit():
         ustb=USTB(form.stuid.data, form.pswd.data)
         opener = ustb.login()
-        if opener :
+        if opid and opener :
             user=User.query.filter_by(wxid=opid).first()
             if user:
                 state='已重新绑定'
@@ -82,10 +81,10 @@ def oauth():
 def grade():
     if session.get('opid'):
         opid=session['opid']
+        print('session中有opid',session['opid'])
     else:
         opid=getwxid(request.args.get("code"))
-    print(opid)
-    print('2',request.args.get("code"))
+        print('通过函数获得opid', opid)
     user = User.query.filter_by(wxid=opid).first()
     if user:
         ustb=USTB(user.stuid, user.pswd)
