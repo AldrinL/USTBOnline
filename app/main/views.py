@@ -39,6 +39,8 @@ def init_auth():
             # url = 'http://ustbonline.coding.io' + url_for('main.grade', opid = dict['FromUserName'])
             url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3bd2eedb7bee8069&redirect_uri=http://ustbonline.coding.io'+ url_for('main.grade') +'&response_type=code&scope=snsapi_base#wechat_redirect' 
             return toxml(dict, url)
+        else:
+            return 'Bad request'
 
 
 @main.route('/bd', methods = ['GET', 'POST'] )
