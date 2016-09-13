@@ -29,7 +29,7 @@ def getwxid(code):
         op=urllib.request.urlopen(tokenurl)
         data=op.read()  #不要轻易删除
         data = json.loads(data.decode())
-        session['opid']=data.['openid']
+        session['opid']=data['openid']
         return data['openid']
     else:
         return session['opid']
