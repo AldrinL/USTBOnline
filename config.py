@@ -17,7 +17,8 @@ class DevelopmentConfig(Config):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+    'postgres://dtonkgkhrfaheg:LORyZsOMX91903iXweGiN1iUOW@ec2-54-235-99-12.compute-1.amazonaws.com:5432/dejj1dlr5gj7rc'
+#        'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \

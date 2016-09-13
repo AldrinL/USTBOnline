@@ -1,15 +1,5 @@
-# from flask import Flask
-# from flask.ext.sqlalchemy import SQLAlchemy
 from . import db
-# from flask.ext.script import Manager, Shell
-# from sqlalchemy import Column, Integer, String
 
-# app = Flask(__name__)
-# db = SQLAlchemy(app)
-# def make_shell_context():
-#     return dict(app=app, db=db, User=User, School=School)
-# manager = Manager(app)
-# manager.add_command("shell", Shell(make_context=make_shell_context))
 
 
 class School(db.Model):
