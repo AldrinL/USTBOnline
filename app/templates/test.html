@@ -2,25 +2,13 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}贝壳Online{% endblock %}
 {% block page_content %}
-<div >
-   <table class="table" style="word-break:break-all; word-wrap:break-all;">
-      <caption>你的全部成绩</caption>
-      <thead>
-         <tr>
-            <th>课程</th>
-            <th>学分</th>
-            <th>成绩</th>
-         </tr>
-      </thead>
-      <tbody>
-          
-         <tr>
-            <td style="white-space:pre-wrap;width:300px;">aaaaaaa成功之道aaaaaaaaaaaaaaaaaa前途及领袖</td>
-            <td>grade[i][5]</td>
-            <td>grade[i][7]</td>
-         </tr>
-
-      </tbody>
-   </table>
+<div class="container">
+	<div class="jumbotron">
+		<h1>欢迎来到贝壳Online！</h1>
+		<p>这是一个便捷的校园信息查询工具。</p>
+		<p><a class="btn btn-primary btn-lg" role="button">
+			了解更多</a>
+		</p>
+	</div>
 </div>
 {% endblock %}
