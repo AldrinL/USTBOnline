@@ -22,7 +22,7 @@ def before_first_request():
 
 @main.route('/' )
 def hello_world():
-    return 'Hello World!~'
+    return render_template('test.html')
 
 @main.route('/wx', methods = ['GET', 'POST'] )
 def init_auth():
